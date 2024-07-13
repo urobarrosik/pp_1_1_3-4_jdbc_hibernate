@@ -22,7 +22,8 @@ public class Util {
 
     private static Connection connection;
 
-    private Util() {}
+    private Util() {
+    }
 
     public static Connection getConnection() {
         try {
