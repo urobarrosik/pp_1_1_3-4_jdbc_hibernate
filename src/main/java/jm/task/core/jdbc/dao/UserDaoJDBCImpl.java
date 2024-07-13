@@ -14,7 +14,7 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void createUsersTable() {
         try (Connection connection = Util.getConnection(); Statement statement = connection.createStatement()) {
-            statement.execute("CREATE TABLE Users (" +
+            statement.execute("CREATE TABLE IF NOT EXISTS Users (" +
                     "id int auto_increment primary key," +
                     "name varchar(10) not null, " +
                     "lastName varchar(10) not null, " +
@@ -27,7 +27,7 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void dropUsersTable() {
         try (Connection connection = Util.getConnection(); Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE users");
+            statement.executeUpdate("DROP TABLE IF EXISTS users");
         } catch (SQLException e) {
             e.printStackTrace();
         }
