@@ -5,7 +5,9 @@ import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
@@ -63,7 +65,8 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.createSQLQuery("DELETE FROM users WHERE id = " + id).executeUpdate();
+            Query query = session.createQuery("DELETE FROM User WHERE id = :userId");
+            query.setParameter("userId", id);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -75,13 +78,13 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        List<User> userList;
+        List<User> userList = new ArrayList<User>();
         try (Session session = sessionFactory.openSession()) {
             userList = session.createQuery("FROM User", User.class).list();
             System.out.println(userList);
             return userList;
         } catch (Exception e) {
-            return null;
+            return userList;
         }
     }
 
